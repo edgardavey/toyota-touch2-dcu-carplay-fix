@@ -59,6 +59,25 @@ that thread), then apply the fixes below.
 5. **Run "Delete personal data"** (Setup menu) — confirmed *required*, not just a formality (see below).
 6. Test CarPlay with a cable that actually carries data (see cable note below).
 
+## Using `patcher.py` instead of doing it by hand
+
+Both fixes below can be applied with the included dependency-free Python 3 script, which
+always backs up before touching anything and can undo itself:
+
+```bash
+python3 patcher.py scan /Volumes/USB3          # read-only - shows flag files and kwi versions
+python3 patcher.py remove-flags /Volumes/USB3  # Fix #1
+python3 patcher.py swap-kwi /Volumes/USB3 \
+    --target 17TDT2EU-DA01_7910.kwi --source 17TDT2EU-DA31_7910.kwi   # Fix #2
+
+# if you need to undo either step:
+python3 patcher.py restore /Volumes/USB3
+```
+
+Run `python3 patcher.py --help` for full usage. `scan` is read-only and safe to run on
+any drive just to see what's there. See `compatibility.json` for which filenames apply
+to your exact hardware before running `swap-kwi`.
+
 ## Fix #1 — delete `phaseup.dat` from the USB3 drive root
 
 Every attempt without this fix reached 99%, logged `Sequence/Dcu Commit finished` → `[REPRO]Vup Completed`,
@@ -187,3 +206,19 @@ wants to try this safely, PRs/issues welcome.
 - [Toyota Owners Club: "2020 Camry Software Update - Apple CarPlay in EU"](https://www.toyotaownersclub.com/forums/topic/193487-2020-camry-software-update-apple-carplay-in-eu/)
 - [Toyota Owners Club: "Retro Fit Apple Carplay & Android Auto"](https://www.toyotaownersclub.com/forums/topic/195353-retro-fit-apple-carplay-android-auto/) (Corolla)
 - Toyota Maintenance Bulletin `BE-00439T-TME`, Version 4, 18 Sep 2020
+
+## Right to repair
+
+This is Toyota's own official retrofit software, applied without a dealer in the loop.
+Nothing here forges a signature, decrypts protected firmware, or writes code Toyota
+didn't already write and sign themselves — the fixes are about *which* of Toyota's own
+already-signed files gets selected, not about replacing them with something new. A device
+you own, past its warranty, with a manufacturer-built upgrade path that a dealer visit
+would otherwise gatekeep behind a fee, is a reasonable thing to be able to fix and improve
+yourself. Contributions that grow the hardware-compatibility list (`compatibility.json`)
+or make `patcher.py` more broadly useful are welcome — see `CONTRIBUTING.md`.
+
+## For AI agents
+
+See [`llms.txt`](llms.txt) for a structured summary of this repo and guidance on how to
+help someone apply this fix safely.

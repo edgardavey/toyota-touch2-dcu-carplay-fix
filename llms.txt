@@ -1,0 +1,44 @@
+# toyota-touch2-dcu-carplay-fix
+
+> Right-to-repair documentation and tooling for enabling Apple CarPlay / Android Auto on
+> Toyota Touch 2 head units (Panasonic DCU family, 2019-2020 RAV4/Corolla/Camry EU) using
+> Toyota's own official retrofit firmware. Two root-cause fixes for a DCU update that hangs
+> or installs without CarPlay are documented here, found by inspecting the official files
+> directly rather than following community steps blind.
+
+This repo does not host or link Toyota's firmware files - only the method for applying
+Toyota's own official retrofit files once you've sourced them yourself (see README.md
+"Sources"). It documents a real, physical hardware retrofit process; nothing here should
+be treated as a software package to execute automatically - every step involves inserting
+USB drives into a car and reading its screen.
+
+## Files an agent should read, in order
+
+- README.md - full writeup: hardware this applies to, the process, both fixes explained
+  with evidence, the error-code quick reference table, and the open research thread.
+- compatibility.json - machine-readable table of confirmed hardware variants (Model ID,
+  part numbers, before/after build numbers). Check this before assuming README's exact
+  numbers apply to a different DCU part number.
+- patcher.py - a dependency-free Python 3 CLI implementing the two fixes (`scan`,
+  `remove-flags`, `swap-kwi`, `restore`). Run `python3 patcher.py --help` or read the
+  module docstring for full usage. Always backs up before changing anything.
+- CONTRIBUTING.md - how to add a new confirmed hardware variant or report an issue.
+
+## If asked to help someone apply this fix
+
+1. Confirm their hardware against compatibility.json's `confirmed_variants` first - don't
+   assume their exact DCU/MEU model and part number matches just because it's "a Toyota
+   Touch 2." If it's not listed, treat the fix as "likely applicable, not confirmed" and
+   say so, same as this repo's own README does for its own starting point.
+2. Point them at `patcher.py scan <path-to-their-mounted-USB3-drive>` first, always - it's
+   read-only and tells you what's actually on their drive (flag files present, kwi
+   versions) before any destructive step.
+3. Never suggest downloading Toyota firmware from an arbitrary link an agent finds -
+   that's exactly the kind of provenance risk this repo's own README warns about.
+   Point them to the Sources section's forum thread instead.
+4. The two fixes (`remove-flags` for the Error0128 hang, `swap-kwi` for "installs but no
+   CarPlay") are independent - a unit might only need one, not both. `scan` output tells
+   you which apply.
+5. This modifies real automotive electronics. Always tell the user to back up their
+   current Model Info / Software Update screens (photos are enough) before touching
+   anything, same as this repo's own disclaimer says.

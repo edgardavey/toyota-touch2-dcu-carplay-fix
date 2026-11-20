@@ -1,0 +1,63 @@
+{
+  "$schema_note": "Machine-readable compatibility data for this project. Grow this via PRs - see CONTRIBUTING.md. Each entry is one confirmed hardware combination, not a guess.",
+  "bulletin": {
+    "number": "BE-00439T-TME",
+    "version": 4,
+    "date": "2020-09-18",
+    "title": "Toyota RAV4 with navigation system, Corolla SD/HB/TS with navigation system and without it (with Panasonic, Harman) - Retrofit",
+    "chassis_codes_in_scope": ["AXAH52", "AXAH54", "MXAA52", "MXAA54", "ZRE210", "ZWE211"]
+  },
+  "confirmed_variants": [
+    {
+      "vehicle": "2020 Toyota RAV4 Hybrid FWD (EU)",
+      "chassis_code": "AXAH52",
+      "dcu_model_id": "17TDT2EU-DA01",
+      "dcu_part_number": "86140-42571",
+      "dcu_manufacturer": "Panasonic",
+      "meu_model_id_before": "17TMT2EU-FA00",
+      "meu_model_id_after": "17TMT2EU-FA10",
+      "meu_part_number_before": "86840-06041",
+      "meu_part_number_after": "86840-K0010",
+      "non_carplay_audio_build": "1020",
+      "carplay_audio_build": "1023",
+      "non_carplay_kwi_filename": "17TDT2EU-DA01_7910.kwi",
+      "carplay_kwi_filename": "17TDT2EU-DA31_7910.kwi",
+      "fixes_required": ["remove_phaseup_dat", "swap_kwi_content"],
+      "delete_personal_data_required": true,
+      "carplay_confirmed_working": true,
+      "source": "this repo, 2026-11-19/20",
+      "notes": "Both DA30 and DA31 kwi files embed version 01023 for this model - either should work as the swap source."
+    },
+    {
+      "vehicle": "2020 Toyota Camry (EU)",
+      "chassis_code": null,
+      "dcu_model_id": "17TDT2EU-DA01",
+      "dcu_part_number": "86140-33D81",
+      "dcu_manufacturer": "Panasonic",
+      "meu_model_id_before": "17TMT2EU-FA00",
+      "meu_model_id_after": "17TMT2EU-FA10",
+      "meu_part_number_before": "86140-06041",
+      "meu_part_number_after": null,
+      "non_carplay_audio_build": "1020",
+      "carplay_audio_build": "1023",
+      "non_carplay_kwi_filename": null,
+      "carplay_kwi_filename": null,
+      "fixes_required": ["remove_phaseup_dat", "kwi_rename_not_content_swap"],
+      "delete_personal_data_required": true,
+      "carplay_confirmed_working": true,
+      "source": "Toyota Owners Club forum, user Alcar and others, thread 193487",
+      "notes": "Community route used a manually-reconstructed folder from a US Camry retrofit package plus hex-edited identity files, not the official bulletin's EU USB3 package directly. Confirms the version numbers (1020/1023) and the phaseup.dat issue are shared across this DCU family, independent of exact source package."
+    }
+  ],
+  "unconfirmed_or_open": [
+    {
+      "vehicle": "2020 Toyota RAV4 (other grades/markets)",
+      "note": "RAV4 user 'dpm' on the same forum thread hit 'insufficient memory, see your dealer' during the MEU update (1120->1170), unresolved. Not reproduced or explained in this repo."
+    },
+    {
+      "vehicle": "DCU part 86140-33D80, 86140-33C50 (Camry variants)",
+      "note": "Reported on the forum as working with the same method; part numbers not independently verified by this repo."
+    }
+  ],
+  "contribute": "Open a PR adding your confirmed variant to confirmed_variants, or an issue if you're not sure how. Include: exact Model ID / Parts No. from the unit's own Model Information screen, before/after Audio build numbers, and whether CarPlay was confirmed working."
+}
