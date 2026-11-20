@@ -21,10 +21,16 @@ Open an issue or PR with:
 - If something went differently than README describes: the exact on-screen error text
   and log lines, and what state the unit ended up in (did it recover with a power cycle?).
 
-PRs adding an entry to `compatibility.json` are welcome — follow the existing schema.
-Entries you're not fully sure about belong in `unconfirmed_or_open`, not
-`confirmed_variants` — keep the distinction between "I tested this" and "I read this
-somewhere" clear, the same way the README does.
+PRs adding an entry to `compatibility.json` are welcome — follow the existing schema and
+its three confidence tiers:
+- `confirmed_variants` — you tested this yourself, on your own hardware.
+- `community_reported` — someone (you or another source) reported this publicly, but it
+  hasn't been independently tested by this project.
+- `unconfirmed_or_open` — an open question or unresolved problem.
+
+Keep these separate. Don't put something in `confirmed_variants` unless you (or someone
+in this project) actually did it — a forum post, a YouTube video, or "I'm pretty sure"
+belongs in `community_reported` at most, clearly attributed to its actual source.
 
 ## Working on `patcher.py`
 

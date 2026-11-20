@@ -1,5 +1,5 @@
 {
-  "$schema_note": "Machine-readable compatibility data for this project. Grow this via PRs - see CONTRIBUTING.md. Each entry is one confirmed hardware combination, not a guess.",
+  "$schema_note": "Machine-readable compatibility data for this project. Grow this via PRs - see CONTRIBUTING.md. Three confidence tiers, kept deliberately separate: confirmed_variants (directly tested in this repo), community_reported (a specific public forum report, not independently tested or verified by this repo), and unconfirmed_or_open (open questions / unresolved problems). Do not merge these tiers - the distinction between 'we tested this' and 'someone else reported this' is the whole point.",
   "bulletin": {
     "number": "BE-00439T-TME",
     "version": 4,
@@ -25,9 +25,11 @@
       "fixes_required": ["remove_phaseup_dat", "swap_kwi_content"],
       "delete_personal_data_required": true,
       "carplay_confirmed_working": true,
-      "source": "this repo, 2026-11-19/20",
+      "source": "this repo, 2026-11-19/20 - directly tested",
       "notes": "Both DA30 and DA31 kwi files embed version 01023 for this model - either should work as the swap source."
-    },
+    }
+  ],
+  "community_reported": [
     {
       "vehicle": "2020 Toyota Camry (EU)",
       "chassis_code": null,
@@ -44,9 +46,9 @@
       "carplay_kwi_filename": null,
       "fixes_required": ["remove_phaseup_dat", "kwi_rename_not_content_swap"],
       "delete_personal_data_required": true,
-      "carplay_confirmed_working": true,
-      "source": "Toyota Owners Club forum, user Alcar and others, thread 193487",
-      "notes": "Community route used a manually-reconstructed folder from a US Camry retrofit package plus hex-edited identity files, not the official bulletin's EU USB3 package directly. Confirms the version numbers (1020/1023) and the phaseup.dat issue are shared across this DCU family, independent of exact source package."
+      "carplay_reported_working": true,
+      "source": "Toyota Owners Club forum, user Alcar and others, thread 193487 - NOT independently tested or verified by this repo",
+      "notes": "Community route used a manually-reconstructed folder from a US Camry retrofit package plus hex-edited identity files, not the official bulletin's EU USB3 package directly. The version numbers (1020/1023) and the phaseup.dat issue match what this repo found independently on a different DCU part number via the official package - that overlap is the useful signal here, not an independent confirmation of this exact Camry variant."
     }
   ],
   "unconfirmed_or_open": [
