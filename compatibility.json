@@ -59,6 +59,10 @@
     {
       "vehicle": "DCU part 86140-33D80, 86140-33C50 (Camry variants)",
       "note": "Reported on the forum as working with the same method; part numbers not independently verified by this repo."
+    },
+    {
+      "vehicle": "All confirmed variants (wireless CarPlay)",
+      "note": "No evidence this DCU has native WiFi hardware for direct wireless CarPlay - the official retrofit is wired-only. Third-party wireless CarPlay dongles (e.g. CarlinKit) that sit on the existing USB-A port and only require working wired CarPlay are a plausible path, since that precondition is now met, but none has been tested on this hardware yet. Untested, not confirmed either way - see README's 'Wireless CarPlay' section."
     }
   ],
   "contribute": "Open a PR adding your confirmed variant to confirmed_variants, or an issue if you're not sure how. Include: exact Model ID / Parts No. from the unit's own Model Information screen, before/after Audio build numbers, and whether CarPlay was confirmed working."

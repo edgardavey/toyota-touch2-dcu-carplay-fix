@@ -159,6 +159,24 @@ silently block CarPlay even with perfectly correct firmware. If you're bridging 
 adapter on a computer first (does Finder/Photos recognize the phone through it?) before concluding the firmware
 is at fault.
 
+## Wireless CarPlay — untested, here's the honest mechanism
+
+This fix gets you **wired** CarPlay. Making it wireless is a different problem, and as far as I can tell it's a
+hardware problem, not a firmware one: native wireless CarPlay needs the DCU itself to have a WiFi radio capable
+of hosting a direct peer-to-peer link to the phone, plus firmware that knows how to negotiate that. Nothing in
+the bulletin, the `.kwi` files, or anywhere else in this process suggests this DCU has that radio — the entire
+official retrofit is wired-only by design. Unconfirmed either way (would need a board teardown, an FCC ID off
+the unit, or `dmesg` evidence), but there's no evidence for it, so I'm not claiming it's possible.
+
+The realistic path is a third-party **wireless CarPlay dongle** (CarlinKit and similar) plugged into the
+existing USB-A port. It doesn't touch the DCU's own hardware or firmware at all — your phone talks to the
+dongle over WiFi/Bluetooth, and the dongle presents itself to the DCU as an ordinary wired CarPlay device. Since
+the DCU already has working wired CarPlay after this fix, the precondition these dongles need is met. Nobody
+has confirmed one on this exact DCU/MEU combination yet — quality varies a lot between brands/clones, and given
+that wired CarPlay here needed the "delete personal data" reset to trigger, a dongle may need the same
+first-connection dance. If you try one, please report back (good or bad) via an issue or PR to
+`compatibility.json`.
+
 ## Other things that turned out *not* to matter
 
 - `Model ID DCU` still reads `17TDT2EU-DA01` after the flash — expected, that field reflects the
