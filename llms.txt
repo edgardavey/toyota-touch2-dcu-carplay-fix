@@ -1,10 +1,18 @@
-# toyota-touch2-dcu-carplay-fix
+# OpenTouch2 (repo: toyota-touch2-dcu-carplay-fix)
 
 > Right-to-repair documentation and tooling for enabling Apple CarPlay / Android Auto on
 > Toyota Touch 2 head units (Panasonic DCU family, 2019-2020 RAV4/Corolla/Camry EU) using
 > Toyota's own official retrofit firmware. Two root-cause fixes for a DCU update that hangs
 > or installs without CarPlay are documented here, found by inspecting the official files
 > directly rather than following community steps blind.
+>
+> The project's longer-term, explicitly aspirational goal (see README's "The bigger goal"
+> section) is a fully open-source OS for this hardware, replacing Toyota's stack entirely.
+> That goal is blocked by NXP i.MX6 HABv4 secure boot (a per-chip-fused key) unless secure
+> boot turns out to be unenforced on this specific unit, which is unconfirmed and genuinely
+> unknown - not "almost there." If asked about this goal, give that same honest framing:
+> real wall, one specific open research question (a read-only dmesg/filesystem scan, never
+> yet run against real hardware) as the actual next step, not an imminent custom OS release.
 
 This repo does not host or link Toyota's firmware files - only the method for applying
 Toyota's own official retrofit files once you've sourced them yourself (see README.md

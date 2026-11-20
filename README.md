@@ -1,12 +1,26 @@
-# Toyota Touch 2 (Panasonic DCU) CarPlay Retrofit — Two Fixes for a Stuck DCU Update
+<div align="center">
 
-DIY writeup of getting Apple CarPlay working on a **2020 Toyota RAV4 Hybrid FWD (EU)** with a Panasonic
-**DCU 17TDT2EU-DA01** (part `86140-42571`) and Harman **MEU 17TMT2EU-FA00→FA10** (part `86840-06041`→`86840-K0010`),
-using Toyota's own official retrofit files — no hex editing, no signature forging.
+# 🚗 OpenTouch2
+
+### Reviving Toyota's Touch 2 head units — starting with CarPlay, aiming at a fully open OS
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CarPlay](https://img.shields.io/badge/CarPlay-confirmed%20working-brightgreen.svg)](#fix-2--the-installer-picks-the-wrong-firmware-file-by-filename-not-by-best-available)
+[![Patcher](https://img.shields.io/badge/patcher-python%203%2C%20zero%20deps-blue.svg)](patcher.py)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](CONTRIBUTING.md)
+
+</div>
+
+---
+
+**toyota-touch2-dcu-carplay-fix** — DIY writeup and tooling for getting Apple CarPlay working on a
+**2020 Toyota RAV4 Hybrid FWD (EU)** with a Panasonic **DCU 17TDT2EU-DA01** (part `86140-42571`) and Harman
+**MEU 17TMT2EU-FA00→FA10** (part `86840-06041`→`86840-K0010`), using Toyota's own official retrofit files — no
+hex editing, no signature forging.
 
 This covers the same DCU/MEU hardware family used across the **2019–2020 RAV4, Corolla, and Camry EU/Touch 2
-line** (Panasonic 8" display, Harman MEU). If your unit matches the Model ID strings in the table below, this
-should apply to you too.
+line** (Panasonic 8" display, Harman MEU). If your unit matches the Model ID strings in `compatibility.json`,
+this should apply to you too — and if it doesn't yet, that's exactly what this project wants PRs for.
 
 **Result: full CarPlay, confirmed working.** Phone, Maps, Messages, Spotify, Podcasts, the works — no standing
 CarPlay icon needed, it launches automatically when a phone is plugged in.
@@ -217,6 +231,33 @@ you own, past its warranty, with a manufacturer-built upgrade path that a dealer
 would otherwise gatekeep behind a fee, is a reasonable thing to be able to fix and improve
 yourself. Contributions that grow the hardware-compatibility list (`compatibility.json`)
 or make `patcher.py` more broadly useful are welcome — see `CONTRIBUTING.md`.
+
+## The bigger goal: an open OS for these DCUs
+
+CarPlay was the first concrete, achievable milestone — not the ceiling. The actual ambition behind this
+project is bigger: **full control of this hardware, eventually running a community-built, open-source OS
+instead of Toyota's own stack.** These are capable automotive-grade ARM boards (NXP i.MX6Q, confirmed) sitting
+behind years of manufacturer bloat and feature-gating; stripped down and running something purpose-built, they're
+very likely capable of a lot more than Toyota ever lets them do. Fully open firmware that anyone can read, audit,
+extend, and flash — the same spirit as this project's CarPlay fix, just aimed much further out.
+
+**Being honest about where that actually stands today — this is a real wall, not a small gap:** the DCU boots
+via NXP's HABv4 secure boot, verified against an **OTPMK key physically fused into each individual chip's
+silicon** at manufacture. Nobody can make this chip boot genuinely custom code unless it's signed with
+Toyota/Panasonic's own private key, which isn't obtainable through anything short of compromising their
+manufacturing infrastructure — a different problem than anything this project does or should pursue. Everything
+achieved so far (CarPlay included) works by influencing *which of Toyota's own already-signed files* gets
+selected, never by running unsigned code of our own.
+
+**One thing that would genuinely change the picture, if it turned out to be true:** whether secure boot is
+actually *enforced* (fused closed) on these specific units, versus left open on some production run — it varies
+by manufacturer and isn't universal (a 2020 Lexus NX300 teardown by Tencent Keen Lab found no secure boot active
+on a comparable-generation unit from a different maker, for reference — not evidence either way for this exact
+hardware). **Nobody has checked this for the Panasonic Touch 2 DCU yet.** The parked research thread above (a
+safe, read-only filesystem/`dmesg` scan via USB, never tested against real hardware) is the actual first step
+toward finding out — not a custom OS itself, just the one piece of missing evidence that tells us whether that
+door is closed for good or worth pursuing further. If you have embedded security, automotive ECU, or i.MX6
+background and want to help answer that question on a bench unit, this is where to start.
 
 ## For AI agents
 
