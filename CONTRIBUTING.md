@@ -1,5 +1,19 @@
 # Contributing
 
+## Who this project needs most right now
+
+See README's "Roadmap" section for the full context, but concretely:
+
+- **Dealership/shop technicians** with TechDoc access or knowledge of other DCU/MEU part number variants.
+- **Embedded security / automotive ECU researchers**, specifically anyone who can help determine whether
+  NXP i.MX6 HABv4 secure boot is fused open or closed on this unit — the single biggest open question blocking
+  anything beyond configuration-level fixes.
+- **Anyone with a spare, scrap, or junkyard DCU** — a teardown, chip-ID photo, and finding the UART/serial debug
+  header is the safest and most valuable contribution available, zero risk to a working car.
+- **Embedded Linux / Yocto / Automotive Grade Linux developers.**
+
+No contribution is too small — a photo, a part number, a "this didn't work for me" report are all useful.
+
 This project exists because the official community thread for this exact DCU/MEU
 hardware family never fully resolved two things that turned out to matter a lot: a
 hang that failed every attempt until `phaseup.dat` was removed, and an installer that

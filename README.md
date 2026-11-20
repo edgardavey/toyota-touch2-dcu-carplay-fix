@@ -259,6 +259,67 @@ toward finding out — not a custom OS itself, just the one piece of missing evi
 door is closed for good or worth pursuing further. If you have embedded security, automotive ECU, or i.MX6
 background and want to help answer that question on a bench unit, this is where to start.
 
+## Roadmap: is a fully open OS even possible?
+
+Honest answer: maybe, and it branches hard on one unconfirmed fact. Here's the actual shape of it, not a hype
+roadmap.
+
+**Phase 0 — done.** Configuration-level control over Toyota's own already-signed firmware: influencing which
+signed file gets selected and flashed. This is everything in this repo so far, including CarPlay. No unsigned
+code has ever run on these units through this project.
+
+**Phase 1 — next, and the actual bottleneck. Needs: information, not code.**
+The single fact that determines everything downstream: **is NXP i.MX6 HABv4 secure boot actually fused closed
+on this specific DCU, or left open?** It varies by manufacturer and production run — not something you can
+assume either way (a 2020 Lexus NX300 teardown by Tencent Keen Lab found no secure boot active on a
+comparable-generation unit from a different maker; that's not evidence for *this* hardware, just proof it's not
+universal). Nobody has checked this for the Panasonic Touch 2 DCU yet. Three ways to find out, roughly in order
+of how little they risk a working unit:
+- A read-only `dmesg` scan (already sketched above, never run against real hardware) — would show HAB pass/fail
+  status logged at boot, zero risk to a working unit if done as described.
+- Finding this unit's **UART/serial debug console** physically on the board (the update script actively logs to
+  `/dev/ttymxc0`, so a header almost certainly exists) — passive, read-only, but needs a teardown.
+- Precise **SoC identification** via a chip-ID photo during that same teardown — confirms the exact i.MX6
+  variant/revision, which can then be checked against NXP's own public errata and known HAB behavior for that
+  part.
+
+**Phase 2a — if secure boot turns out to be open.** Real custom boot-time code becomes possible. This is a
+genuine, multi-month-plus embedded Linux project from there: board-level pinout reverse engineering (MOST bus
+controller, touchscreen, display timing, any cellular/DCM modem, CAN transceivers), a working U-Boot config,
+kernel, and minimal rootfs for this exact board. Needs real embedded Linux / automotive ECU engineering
+experience, ideally more than one person.
+
+**Phase 2b — if secure boot turns out to be enforced (the more likely outcome, honestly).** The bootloader/kernel
+stays Toyota's, permanently, short of an actual exploit in HABv4 itself — a serious vulnerability-research
+project in its own right (there's a known historical bug class for i.MX6 HABv4, `CVE-2017-7932`, but it's
+unconfirmed whether it even applies to this automotive variant, and this isn't something this project is
+pursuing lightly). **But this branch isn't a dead end — it's a different, more achievable goal:** the OS Toyota
+ships is Linux-based (Yocto / Automotive Grade Linux). A sufficiently deep foothold in the *running, already-
+verified* userspace — like the unsigned shell-script execution path this repo already found and deliberately
+didn't exploit — could let the community build and run real custom software (apps, a different UI layer,
+removing SmartDeviceLink and other bloat) on top of Toyota's existing, signed kernel. Not "replace everything
+from the silicon up," but a genuinely open, modifiable userspace on hardware Toyota considers end-of-life. That's
+a realistic target even if Phase 2a never happens.
+
+### Who this needs
+
+This isn't a demand list — more an invitation, in case you're reading this and any of it rings a bell:
+
+- **Toyota/Lexus dealership or independent shop technicians** — if you've got TechDoc access, know of other
+  DCU/MEU part number variants, or just know things about this platform that never made it into a public forum,
+  that knowledge is exactly what's missing from `compatibility.json` right now.
+- **Embedded security / automotive ECU researchers** — the HABv4 fuse-status question above is the whole
+  bottleneck for Phase 2a. If you've worked with i.MX6 HAB, JTAG/boundary-scan on automotive ECUs, or know how
+  to check fuse state without a teardown, this is the single most valuable thing anyone could contribute right
+  now.
+- **Anyone with a spare, scrap, or junkyard DCU unit** — doesn't need to be in a car. A teardown, a chip-ID
+  photo, and finding the UART header is the safest, most useful contribution there is, with zero risk to a
+  working vehicle.
+- **Embedded Linux / Yocto / AGL developers** — relevant the moment Phase 1 resolves either way.
+
+Open an issue, start a discussion, or just show up with a photo of a chip and a question. See
+`CONTRIBUTING.md`.
+
 ## For AI agents
 
 See [`llms.txt`](llms.txt) for a structured summary of this repo and guidance on how to
